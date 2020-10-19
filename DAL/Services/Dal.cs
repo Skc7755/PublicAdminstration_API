@@ -19,8 +19,7 @@ namespace DAL.Services
         /// <returns></returns>
         public async Task<List<AfarModel>>AfarList(int regattaId,int userId)
         {
-            try
-            {
+            
                 var cmdText = @"select * from afar";
                  
                 //此处可以根据传入的regattaId访问不同的数据
@@ -37,11 +36,7 @@ namespace DAL.Services
                     return memberModel;
                 }
 
-            }
-            catch (Exception)
-            {
-               
-            }
+         
 
         }
       
