@@ -23,15 +23,15 @@ namespace DAL.Services
                 var cmdText = @"select * from afar";
                  
                 //此处可以根据传入的regattaId访问不同的数据
-                using (var conn =GetMySqlConnection(regattaId))
+                using(var conn =GetMySqlConnection(regattaId))
                 {
-                    if (conn.State == System.Data.ConnectionState.Closed)
-                    {
-                       await conn.OpenAsync();
-                    }
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
 
-                     var memberModel =conn
-                      .Query<AfarModel>(cmdText, new { userId = userId }, commandType: System.Data.CommandType.Text)
+                List<AfarModel> memberModel = (await conn
+                      .QueryAsync<AfarModel>(cmdText, new { userId = userId }, commandType: System.Data.CommandType.Text))
                       .ToList();
                     return memberModel;
                 }
