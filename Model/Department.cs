@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Model
 {
+    /// <summary>
+    /// 所属部门表
+    /// </summary>
     public class Department
     {
         /// <summary>
@@ -11,8 +14,9 @@ namespace Model
         /// </summary>
         public int DId { get; set; }
         /// <summary>
-        /// 所属部门名称
+        /// 所属部门
         /// </summary>
-        public string DName { get; set; }
+        public String DName { get; set; }
+
     }
 }

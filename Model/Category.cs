@@ -5,18 +5,18 @@ using System.Text;
 namespace Model
 {
     /// <summary>
-    /// 申请人表
+    /// 用品类别表
     /// </summary>
-    public class Applicant
+    public class Category
     {
         /// <summary>
-        /// 申请人主键
+        /// 用品类别主键
         /// </summary>
-        public int AId { get; set; }
+        public int CId { get; set; }
         /// <summary>
-        /// 申请人
+        /// 用品类别
         /// </summary>
-        public string AName { get; set; }
+        public string CName { get; set; }
 
     }
 }

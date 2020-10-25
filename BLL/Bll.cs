@@ -8,121 +8,126 @@ namespace BLL
 {
     public class Bll
     {
-        //--------------------------------------《车辆管理》------------------------------------------
         /// <summary>
-        /// 车辆信息列表
+        /// Afar列表
         /// </summary>
         /// <param name="regattaId"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public async Task<List<VehicleInfoModel>> VehicleInfoList(int regattaId, int userId)
+        public async Task<List<AfarModel>> AfarList(int regattaId, int userId)
         {
-            return await new Dal().VehicleInfoList(regattaId,userId);
+            return await new Dal().AfarList(regattaId, userId);
         }
         /// <summary>
-        /// 用车申请
+        /// 用品列表
         /// </summary>
         /// <param name="regattaId"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public async Task<List<CarApplicationModel>> CarApplicationList(int regattaId, int userId)
+        public async Task<List<Supplieslist>> GetSupplieslist(int regattaId, int userId)
         {
-            return await new Dal().CarApplicationList(regattaId,userId);
+            return await new Dal().GetSupplieslist(regattaId, userId);
         }
         /// <summary>
-        /// 汽车保险登记
+        /// 用品类别表
         /// </summary>
         /// <param name="regattaId"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-
-        public async Task<List<AIRModel>> AIRList(int regattaId, int userId)
+        public async Task<List<Category>> GetCategory(int regattaId, int userId)
         {
-            return await new Dal().AIRList(regattaId,userId);
+            return await new Dal().GetCategory(regattaId, userId);
         }
         /// <summary>
-        /// 车辆维修保养登记
+        /// 用品列表详情
         /// </summary>
         /// <param name="regattaId"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public async Task<List<VMRModel>> VMRList(int regattaId, int userId)
+        public async Task<Supplieslist> SupplieslistId(int regattaId, int userId, int sllId)
         {
-            return await new Dal().VMRList(regattaId,userId);
+            return await new Dal().SupplieslistId(regattaId, userId, sllId);
         }
         /// <summary>
-        /// 车辆年检登记表
+        /// 申请人类别表
         /// </summary>
         /// <param name="regattaId"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-
-        public async Task<List<AIROVModel>> AIROVList(int regattaId, int userId)
+        public async Task<List<Applicant>> GetApplicant(int regattaId, int userId)
         {
-            return await new Dal().AIROVList(regattaId,userId);
+            return await new Dal().GetApplicant(regattaId, userId);
         }
         /// <summary>
-        /// 车辆加油登记
+        /// 所属部门类别
         /// </summary>
         /// <param name="regattaId"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-
-        public async Task<List<VRRModel>> VRRList(int regattaId, int userId)
+        public async Task<List<Department>> GetDepartment(int regattaId, int userId)
         {
-            return await new Dal().VRRList(regattaId,userId);
+            return await new Dal().GetDepartment(regattaId, userId);
         }
         /// <summary>
-        /// 车辆事故登记
+        /// 用品领用详情
         /// </summary>
         /// <param name="regattaId"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public async Task<List<VARModel>> VARList(int regattaId, int userId)
+        public async Task<Suppliescollect> SuppliescollectId(int regattaId, int userId, int sllId)
         {
-            return await new Dal().VARList(regattaId,userId);
-        }
-            //---------------------------------------《资产管理》-----------------------------------------
-            /// <summary>
-            /// 资产归还申请列表
-            /// </summary>
-            /// <param name="regattaId"></param>
-            /// <param name="userId"></param>
-            /// <returns></returns>
-            public async Task<List<AfarModel>> AfarList(int regattaId,int userId)
-        {
-            return await new Dal().AfarList(regattaId,userId);
+            return await new Dal().SuppliescollectId(regattaId, userId, sllId);
         }
         /// <summary>
-        /// 资产列表
+        /// 用品采购详情
         /// </summary>
         /// <param name="regattaId"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public async Task<List<AssetsListModel>> AssetsList(int regattaId, int userId)
+        public async Task<Suppliesprocurement> SuppliesprocurementId(int regattaId, int userId, int slpId)
         {
-            return await new Dal().AssetsList(regattaId,userId);
+            return await new Dal().SuppliesprocurementId(regattaId, userId, slpId);
         }
-
         /// <summary>
-        /// 资产领用申请列表
+        /// 用品采购
         /// </summary>
         /// <param name="regattaId"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public async Task<List<CFAModel>> CFAList(int regattaId, int userId)
+        public async Task<List<Suppliesprocurement>> GetSuppliesprocurement(int regattaId, int userId)
         {
-            return await new Dal().CFAList(regattaId,userId);
+            return await new Dal().GetSuppliesprocurement(regattaId, userId);
         }
         /// <summary>
-        /// APA资产采购
+        /// 用品领用
         /// </summary>
         /// <param name="regattaId"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public async Task<List<APAModel>> APAList(int regattaId, int userId)
+        public async Task<List<Suppliescollect>> GetSuppliescollect(int regattaId, int userId)
         {
-            return await new Dal().APAList(regattaId,userId);
+            return await new Dal().GetSuppliescollect(regattaId, userId);
         }
+        /// <summary>
+        /// 添加用品
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <param name="Sll"></param>
+        /// <returns></returns>
+        public async Task<int> AddSupplieslist(Supplieslist Sll)
+        {
+            return await new Dal().AddSupplieslist(Sll);
         }
+        /// <summary>
+        /// 领用新增
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<int> AddSuppliescollect(Suppliescollect Sli)
+        {
+            return await new Dal().AddSuppliescollect(Sli);
+        }
+    }
 }
