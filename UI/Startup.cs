@@ -33,7 +33,7 @@ namespace UI
                 options.AddPolicy("CustomCorsPolicy", policy =>
                 {
                     // 设定允许跨域的来源，有多个可以用','隔开
-                    policy.WithOrigins("http://localhost:58046", "http://localhost:55631")//mvc端口
+                    policy.WithOrigins("http://localhost:57726", "http://localhost:64380")//mvc端口
                     .AllowAnyHeader()//请求头
                     .AllowAnyMethod()//请求方法
                     .AllowAnyOrigin();//返回值
