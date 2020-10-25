@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Dapper;
+using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -40,6 +41,7 @@ namespace DAL.Services
             conn = new MySqlConnection(csb.ConnectionString);
             return conn;
         }
+
         public void Dispose()
         {
             if (conn != null && conn.State != System.Data.ConnectionState.Closed)
@@ -49,6 +51,7 @@ namespace DAL.Services
         }
 
     }
+
 
 }
 
