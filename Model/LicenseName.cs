@@ -4,15 +4,15 @@ using System.Text;
 
 namespace Model
 {
-    public class Applicant
+    public class LicenseName
     {
         /// <summary>
-        /// 申请人主键
+        /// 证照名称主键
         /// </summary>
-        public int AId { get; set; }
+        public int LN_Id { get; set; }
         /// <summary>
-        /// 申请人名称
+        /// 证照名称
         /// </summary>
-        public string AName { get; set; }
+        public string LN_Name { get; set; }
     }
 }

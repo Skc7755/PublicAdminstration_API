@@ -3,21 +3,16 @@ using System.Threading.Tasks;
 using Model;
 using System.Collections.Generic;
 using DAL.Services;
-
+using DAL;
 namespace BLL
 {
     public class Bll
     {
+
         /// <summary>
-        /// Afar列表
-        /// </summary>
-        /// <param name="regattaId"></param>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        public async Task<List<AfarModel>> AfarList(int regattaId, int userId)
-        {
-            return await new Dal().AfarList(regattaId, userId);
-        }
+        /// 登录
+
+ 
         /// <summary>
         /// 用品列表
         /// </summary>
@@ -50,21 +45,54 @@ namespace BLL
         }
         /// <summary>
         /// 申请人类别表
+
         /// </summary>
-        /// <param name="regattaId"></param>
-        /// <param name="userId"></param>
+        /// <param name="name"></param>
+        /// <param name="pwd"></param>
         /// <returns></returns>
+
+        public async Task<List<LoginModel>> Login(string name, string pwd)
+        {
+            return await new  Dal().Login(name, pwd);
+        }
+        public async Task<List<ConferenceModel>> conferen(int regattaId, int userId)
+        {
+            return await new Dal().conferen(regattaId, userId);
+        }
+        public async Task<List<ManageModel>> manage(int regattaId, int userId)
+        {
+            return await new Dal().manage(regattaId, userId);
+        }
+        public async Task<ManageModel> fill(int id)
+        {
+            return await new  Dal().fill(id);
+        }
+        public async Task<ConferenceModel> fi(int id)
+        {
+            return await new Dal().fi(id);
+        }
+
+        public async Task<int> ManAdd(ManageModel m)
+        {
+            return await new Dal().ManAdd(m);
+        }
+        
+        public async Task<int> ConAdd(ConferenceModel c)
+        {
+            return await new Dal().ConAdd(c);
+       
+        }
         public async Task<List<Applicant>> GetApplicant(int regattaId, int userId)
         {
             return await new Dal().GetApplicant(regattaId, userId);
         }
-        /// <summary>
-        /// 所属部门类别
-        /// </summary>
-        /// <param name="regattaId"></param>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        public async Task<List<Department>> GetDepartment(int regattaId, int userId)
+            /// <summary>
+            /// 所属部门类别
+            /// </summary>
+            /// <param name="regattaId"></param>
+            /// <param name="userId"></param>
+            /// <returns></returns>
+            public async Task<List<Department>> GetDepartment(int regattaId, int userId)
         {
             return await new Dal().GetDepartment(regattaId, userId);
         }
@@ -128,6 +156,7 @@ namespace BLL
         public async Task<int> AddSuppliescollect(Suppliescollect Sli)
         {
             return await new Dal().AddSuppliescollect(Sli);
+
         }
     }
 }

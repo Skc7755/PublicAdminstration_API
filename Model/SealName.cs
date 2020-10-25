@@ -4,15 +4,15 @@ using System.Text;
 
 namespace Model
 {
-    public class Applicant
+    public class SealName
     {
         /// <summary>
-        /// 申请人主键
+        /// 印章名称主键
         /// </summary>
-        public int AId { get; set; }
+        public int SN_Id { get; set; }
         /// <summary>
-        /// 申请人名称
+        /// 印章名称
         /// </summary>
-        public string AName { get; set; }
+        public string SN_Name { get; set; }
     }
 }
