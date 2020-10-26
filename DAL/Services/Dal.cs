@@ -7,16 +7,32 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;
 using DAL.Interface;
+
 namespace DAL.Services
 {
     public class Dal : BaseRepository, PublicAdmin
     {
         /// <summary>
-        /// Afar列表
+        /// 证照列表
         /// </summary>
         /// <param name="regattaId"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
+
+        public async Task<List<Certification>> GetCertifications(int regattaId, int userId)
+        {
+            var cer = @"select * from certification c ORDER BY c.C_Id DESC";
+            using (var conn = GetMySqlConnection(regattaId))
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+                List<Certification> cerGCg = (await conn.QueryAsync<Certification>(cer, new { userId = userId }, commandType: System.Data.CommandType.Text)).ToList();
+                return cerGCg;
+            }
+              
+        }
         public async Task<List<AfarModel>> AfarList(int regattaId, int userId)
         {
             var cmdText = @"select * from afar";
@@ -226,6 +242,7 @@ namespace DAL.Services
         {
             var cmdSii = @"SELECT * FROM suppliescollect s JOIN applicant a ON a.AId = s.AId JOIN department d ON d.DId = s.DId GROUP BY s.SId DESC";
 
+
             //此处可以根据传入的regattaId访问不同的数据
             using (var conn = GetMySqlConnection(regattaId))
             {
@@ -234,11 +251,17 @@ namespace DAL.Services
                     await conn.OpenAsync();
                 }
 
+
+              
+
                 List<Suppliescollect> GetSii = (await conn.QueryAsync<Suppliescollect>(cmdSii, new { userId = userId }, commandType: System.Data.CommandType.Text)).ToList();
                 return GetSii;
+
             }
         }
+
         /// <summary>
+        /// 获取印章列表
         /// 用品新增
         /// </summary>
         /// <param name="regattaId"></param>
@@ -305,13 +328,32 @@ namespace DAL.Services
         //}
 
         /// <summary>
+        /// 印章列表详情
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<List<Stamp>> GetStamps(int regattaId, int userId)
+        {
+            var sta = @"select * from stamp s ORDER BY s.S_Id DESC";
+            using (var conn = GetMySqlConnection(regattaId))
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+
+                List<Stamp> staModel = (await conn.QueryAsync<Stamp>(sta, new { userId = userId }, commandType: System.Data.CommandType.Text)).ToList();
+                return staModel;
+            }
+        }
+        /// <summary>
         /// 登录
         /// </summary>
         /// <param name="regattaId"></param>
         /// <param name="userId"></param>
-        /// <param name="name"></param>
-        /// <param name="pwd"></param>
         /// <returns></returns>
+
         public async Task<List<LoginModel>> Login(string name, string pwd)
         {
 
@@ -334,11 +376,433 @@ namespace DAL.Services
         }
 
         /// <summary>
-        /// 显示会议室列表
+        /// 获取证照借用列表
         /// </summary>
         /// <param name="regattaId"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
+        public async Task<List<License>> GetLicenses(int regattaId, int userId)
+        {
+            var lic = @"select * from license l join applicant a on l.A_Id=a.AId join department d on d.DId=l.D_Id JOIN licensename ln on ln.LN_Id=l.LN_Id ORDER BY l.L_Id DESC";
+
+            //此处可以根据传入的regattaId访问不同的数据
+            using (var conn = GetMySqlConnection(regattaId))
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+
+                List<License> licModel = (await conn.QueryAsync<License>(lic, new { userId = userId }, commandType: System.Data.CommandType.Text)).ToList();
+                return licModel;
+            }
+        }
+
+        /// <summary>
+        /// 用章管理信息
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<List<BySeal>> GetBySeals(int regattaId, int userId)
+        {
+            var bys = @"SELECT * from byseal b join applicant a on a.AId=b.A_Id join department d on d.DId=b.D_Id join sealname sn on sn.SN_Id=b.SN_Id ORDER BY b.SN_Id DESC";
+
+            //此处可以根据传入的regattaId访问不同的数据
+            using (var conn = GetMySqlConnection(regattaId))
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+
+                List<BySeal> bysModel = (await conn.QueryAsync<BySeal>(bys, new { userId = userId }, commandType: System.Data.CommandType.Text)).ToList();
+                return bysModel;
+            }
+        }
+
+        /// <summary>
+        /// 获取申请人下拉列表
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<List<Applicant>> GetApplicants(int regattaId, int userId)
+        {
+            var appl = @"SELECT * from applicant";
+
+            //此处可以根据传入的regattaId访问不同的数据
+            using (var conn = GetMySqlConnection(regattaId))
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+
+                List<Applicant> applModel = (await conn.QueryAsync<Applicant>(appl, new { userId = userId }, commandType: System.Data.CommandType.Text)).ToList();
+                return applModel;
+            }
+        }
+
+        /// <summary>
+        /// 获取部门下拉列表
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<List<Department>> GetDepartments(int regattaId, int userId)
+        {
+            var depa = @"select * from Department";
+
+            //此处可以根据传入的regattaId访问不同的数据
+            using (var conn = GetMySqlConnection(regattaId))
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+
+
+                List<Department> depaModel = (await conn.QueryAsync<Department>(depa, new { userId = userId }, commandType: System.Data.CommandType.Text)).ToList();
+                return depaModel;
+
+
+            }
+        }
+
+        /// <summary>
+        /// 获取证照名称下拉列表
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<List<LicenseName>> GetLicenseNames(int regattaId, int userId)
+        {
+            var lic = @"SELECT * from licensename";
+
+            //此处可以根据传入的regattaId访问不同的数据
+            using (var conn = GetMySqlConnection(regattaId))
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+
+                List<LicenseName> licModel = (await conn.QueryAsync<LicenseName>(lic, new { userId = userId }, commandType: System.Data.CommandType.Text)).ToList();
+                return licModel;
+            }
+        }
+
+        /// <summary>
+        /// 获取印章名称下拉列表
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<List<SealName>> GetSealNames(int regattaId, int userId)
+        {
+            var seal = @"select * from SealName";
+
+            //此处可以根据传入的regattaId访问不同的数据
+            using (var conn = GetMySqlConnection(regattaId))
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+
+                List<SealName> sealModel = (await conn.QueryAsync<SealName>(seal, new { userId = userId }, commandType: System.Data.CommandType.Text)).ToList();
+                return sealModel;
+            }
+        }
+
+        /// <summary>
+        /// 证照列表详情
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<Certification> CerParticulars(int cerId)
+        {
+            var lic = $"select * from certification where C_Id='{cerId}'";
+
+            //此处可以根据传入的regattaId访问不同的数据
+            using (var conn = GetMySqlConnection())
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+
+
+                var licModel = await conn
+                   .QuerySingleOrDefaultAsync<Certification>(lic, commandType: System.Data.CommandType.Text);
+                return licModel;
+
+            }
+        }
+
+        /// <summary>
+        /// 印章列表详情
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <param name="stId"></param>
+        /// <returns></returns>
+        public async Task<Stamp> StaParticulars(int stId)
+        {
+            var stal = $"select * from stamp where S_Id='{stId}'";
+
+            //此处可以根据传入的regattaId访问不同的数据
+            using (var conn = GetMySqlConnection())
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+                var stalModel = await conn
+                   .QuerySingleOrDefaultAsync<Stamp>(stal, commandType: System.Data.CommandType.Text);
+                return stalModel;
+
+                
+
+            }
+        }
+
+        /// <summary>
+        /// 证照借用详情
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <param name="licId"></param>
+        /// <returns></returns>
+
+        public async Task<License> LicParticulars(int licId)
+                {
+
+                    var licl = $"select * from License l where L_Id ='{licId}'";
+
+                    //此处可以根据传入的regattaId访问不同的数据
+                    using (var conn = GetMySqlConnection())
+                    {
+                        if (conn.State == System.Data.ConnectionState.Closed)
+                        {
+                            await conn.OpenAsync();
+                        }
+
+                        var liclModel = await conn
+                            .QuerySingleOrDefaultAsync<License>(licl, commandType: System.Data.CommandType.Text);
+                        return liclModel;
+                    }
+                }
+
+        public async Task<int> ManAdd(ManageModel m)
+        {
+            var manText = $"insert into Management(Man_Theme,Man_Applicant,Man_Department,Man_ApplicatTime,Man_Reserve,Man_StartTime,Man_EndTime,Man_Reasons,Man_Remarks,Man_Actual,Man_Enclosure)values('{m.Man_Theme}','{m.Man_Applicant}','{m.Man_Department}','{m.Man_ApplicatTime}','{m.Man_Reserve}','{m.Man_StartTime}','{m.Man_EndTime}','{m.Man_Reasons}','{m.Man_Remarks}','{m.Man_Actual}','{m.Man_Enclosure}')";
+
+            //此处可以根据传入的regattaId访问不同的数据
+            using (var conn = GetMySqlConnection())
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+
+                var mantian = await conn.ExecuteAsync(manText, commandType: System.Data.CommandType.Text);
+                return mantian;
+            }
+        }
+
+        /// <summary>
+        /// 用章信息详情
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <param name="byId"></param>
+        /// <returns></returns>
+        public async Task<BySeal> ByParticulars(int byId)
+        {
+            var licl = $"SELECT * FROM byseal WHERE B_Id='{byId}'";
+
+            //此处可以根据传入的regattaId访问不同的数据
+            using (var conn = GetMySqlConnection())
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+
+                var liclModel = await conn
+                    .QuerySingleOrDefaultAsync<BySeal>(licl, commandType: System.Data.CommandType.Text);
+                return liclModel;
+            }
+        }
+
+        /// <summary>
+        /// 添加证照列表信息
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <param name="cer"></param>
+        /// <returns></returns>
+        public async Task<int> AddCertification(Certification cer)
+        {
+            var Addcer = $"INSERT INTO certification (C_Name,C_Number,C_Authority,C_Date,C_Review,C_Validity,C_Annual,C_Loaner,C_Manager,C_Description) VALUES('{cer.C_Name}','{cer.C_Number}','{cer.C_Authority}','{cer.C_Date}',{cer.C_Review},{cer.C_Validity},'{cer.C_Annual}','{cer.C_Loaner}','{cer.C_Manager}','{cer.C_Description}')";
+            //此处可以根据传入的regattaId访问不同的数据
+            using (var conn = GetMySqlConnection())
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+                var AddcerModel = await conn.ExecuteAsync(Addcer, commandType: System.Data.CommandType.Text);
+                return AddcerModel;
+            }
+        }
+
+        /// <summary>
+        /// 添加印章列表信息
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <param name="cer"></param>
+        /// <returns></returns>
+        public async Task<int> AddStamp(Stamp sta)
+        {
+            var Addsta = $"INSERT INTO stamp (S_Name,S_Commissioning,S_Loaner,S_Manager,S_Description) VALUES('{sta.S_Name}','{sta.S_Commissioning}','{sta.S_Loaner}','{sta.S_Manager}','{sta.S_Description}')";
+            //此处可以根据传入的regattaId访问不同的数据
+            using (var conn = GetMySqlConnection())
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+                var AddstaModel = await conn.ExecuteAsync(Addsta, commandType: System.Data.CommandType.Text);
+                return AddstaModel;
+            }
+        }
+
+        /// <summary>
+        /// 添加证照借用信息
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <param name="cer"></param>
+        /// <returns></returns>
+        public async Task<int> AddLicense(License lic)
+        {
+            var Addlic = $"INSERT INTO license (L_Matter,L_EndTime,A_Id,D_Id,L_ApplicationTime,LN_Id,L_Purpose,L_AdvanceTime,L_ReturenTime,L_Information) VALUES('{lic.L_Matter}','{lic.L_EndTime}',{lic.A_Id},{lic.D_Id},'{lic.L_ApplicationTime}',{lic.LN_Id},'{lic.L_Purpose}','{lic.L_AdvanceTime}','{lic.L_ReturenTime}','{lic.L_Information}')";
+            //此处可以根据传入的regattaId访问不同的数据
+            using (var conn = GetMySqlConnection())
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+                var AddlicModel = await conn.ExecuteAsync(Addlic, commandType: System.Data.CommandType.Text);
+                return AddlicModel;
+            }
+        }
+
+        /// <summary>
+        /// 添加用章管理信息
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <param name="cer"></param>
+        /// <returns></returns>
+        public async Task<int> AddBySeal(BySeal bys)
+        {
+            var Addbys = $"INSERT INTO byseal (B_Matter,B_EndTime,A_Id,D_Id,B_ApplicationTime,SN_Id,B_Purpose,B_File,B_Used,B_AdvanceTime,B_ReturenTime,B_Information) VALUES('{bys.B_Matter}','{bys.B_EndTime}',{bys.A_Id},{bys.D_Id},'{bys.B_ApplicationTime}',{bys.SN_Id},'{bys.B_Purpose}','{bys.B_File}',{bys.B_Used},'{bys.B_AdvanceTime}','{bys.B_ReturenTime}','{bys.B_Information}')";
+            //此处可以根据传入的regattaId访问不同的数据
+            using (var conn = GetMySqlConnection())
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+                var AddbysModel = await conn.ExecuteAsync(Addbys, commandType: System.Data.CommandType.Text);
+                return AddbysModel;
+            }
+        }
+        /// <summary>
+        /// 删除证照列表信息
+        /// </summary>
+        /// <param name="cerId"></param>
+        /// <returns></returns>
+        public async Task<int> DelCertification(int dcerId)
+        {
+            var Addbys = $"delete from Certification where C_Id='{dcerId}'";
+            //此处可以根据传入的regattaId访问不同的数据
+            using (var conn = GetMySqlConnection())
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+                var AddbysModel = await conn.ExecuteAsync(Addbys, commandType: System.Data.CommandType.Text);
+                return AddbysModel;
+            }
+        }
+        /// <summary>
+        /// 删除证照借用信息
+        /// </summary>
+        /// <param name="dlicId"></param>
+        /// <returns></returns>
+        public async Task<int> DelCerLicense(int dlicId)
+        {
+            var Addbys = $"delete from License where L_Id='{dlicId}'";
+            //此处可以根据传入的regattaId访问不同的数据
+            using (var conn = GetMySqlConnection())
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+                var AddbysModel = await conn.ExecuteAsync(Addbys, commandType: System.Data.CommandType.Text);
+                return AddbysModel;
+            }
+        }
+        /// <summary>
+        /// 删除印章列表信息
+        /// </summary>
+        /// <param name="dstId"></param>
+        /// <returns></returns>
+        public async Task<int> DelStamp(int dstId)
+        {
+            var Addbys = $"delete from Stamp where S_Id='{dstId}'";
+            //此处可以根据传入的regattaId访问不同的数据
+            using (var conn = GetMySqlConnection())
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+                var AddbysModel = await conn.ExecuteAsync(Addbys, commandType: System.Data.CommandType.Text);
+                return AddbysModel;
+            }
+        }
+
+        /// <summary>
+        /// 删除印章管理信息
+        /// </summary>
+        /// <param name="dbyId"></param>
+        /// <returns></returns>
+        public async Task<int> DelBySeal(int dbyId)
+        {
+            var Addbys = $"delete from BySeal where B_Id='{dbyId}'";
+            //此处可以根据传入的regattaId访问不同的数据
+            using (var conn = GetMySqlConnection())
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+                var AddbysModel = await conn.ExecuteAsync(Addbys, commandType: System.Data.CommandType.Text);
+                return AddbysModel;
+            }
+        }
+
         public async Task<List<ConferenceModel>> conferen(int regattaId, int userId)
         {
 
@@ -360,12 +824,6 @@ namespace DAL.Services
 
         }
 
-        /// <summary>
-        /// 显示会议室预定列表
-        /// </summary>
-        /// <param name="regattaId"></param>
-        /// <param name="userId"></param>
-        /// <returns></returns>
         public async Task<List<ManageModel>> manage(int regattaId, int userId)
         {
 
@@ -384,16 +842,7 @@ namespace DAL.Services
                  .ToList();
                 return manages;
             }
-
         }
-
-        /// <summary>
-        /// 会议室预定列表详情
-        /// </summary>
-        /// <param name="regattaId"></param>
-        /// <param name="userId"></param>
-        /// <param name="id"></param>
-        /// <returns></returns>
         public async Task<ManageModel> fill(int id)
         {
 
@@ -411,16 +860,8 @@ namespace DAL.Services
 
                 return ft;
             }
-
         }
 
-        /// <summary>
-        /// 会议室列表详情
-        /// </summary>
-        /// <param name="regattaId"></param>
-        /// <param name="userId"></param>
-        /// <param name="id"></param>
-        /// <returns></returns>
         public async Task<ConferenceModel> fi(int id)
         {
 
@@ -437,44 +878,14 @@ namespace DAL.Services
                 var fantian = await conn.QueryFirstOrDefaultAsync<ConferenceModel>(fan, commandType: System.Data.CommandType.Text);
                 return fantian;
             }
-
         }
-        /// <summary>
-        /// 添加会议室预定
-        /// </summary>
-        /// <param name="m"></param>
-        /// <returns></returns>
 
-        public async Task<int> ManAdd(ManageModel m)
-        {
-
-            var manText = $"insert into Management(Man_Theme,Man_Applicant,Man_Department,Man_ApplicatTime,Man_Reserve,Man_StartTime,Man_EndTime,Man_Reasons,Man_Remarks,Man_Actual,Man_Enclosure)values('{m.Man_Theme}','{m.Man_Applicant}','{m.Man_Department}','{m.Man_ApplicatTime}','{m.Man_Reserve}','{m.Man_StartTime}','{m.Man_EndTime}','{m.Man_Reasons}','{m.Man_Remarks}','{m.Man_Actual}','{m.Man_Enclosure}')";
-
-            //此处可以根据传入的regattaId访问不同的数据
-            using (var conn = GetMySqlConnection())
-            {
-                if (conn.State == System.Data.ConnectionState.Closed)
-                {
-                    await conn.OpenAsync();
-                }
-
-                var mantian = await conn.ExecuteAsync(manText, commandType: System.Data.CommandType.Text);
-                return mantian;
-            }
-
-        }
-        /// <summary>
-        /// 添加会议室
-        /// </summary>
-        /// <param name="c"></param>
-        /// <returns></returns>
         public async Task<int> ConAdd(ConferenceModel c)
 
         {
 
             var conText = $"INSERT into conference(Con_Name,Con_No,Con_Capacity,Con_Position,Con_Interiors,Con_Admin,Con_State,Con_Describe,Con_Attach,Con_Picture)VALUES('{c.Con_Name}', '{c.Con_No}', '{c.Con_Capacity}', '{c.Con_Position}', '{c.Con_Interiors}', '{c.Con_Admin}', '{c.Con_State}','{c.Con_Describe}', '{c.Con_Attach}', '{c.Con_Picture}')";
             ;
-
             //此处可以根据传入的regattaId访问不同的数据
             using (var conn = GetMySqlConnection())
             {
@@ -486,8 +897,6 @@ namespace DAL.Services
                 var contian = await conn.ExecuteAsync(conText, commandType: System.Data.CommandType.Text);
                 return contian;
             }
-
-        }/// <summary>
-
+        }
     }
 }

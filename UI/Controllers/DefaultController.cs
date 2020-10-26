@@ -21,14 +21,19 @@ namespace UI.Controllers
             _PublicAdmin = publicAdmin;
         }
 
-
-        
+      /// <summary>
+        /// 证照列表
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         [Route("/api/Login")]
         [HttpGet]
         public async Task<List<LoginModel>> Login(string name,string pwd)
         {
             return await _PublicAdmin.Login(name,pwd);
         }
+
         [HttpGet]
         public async Task<List<ConferenceModel>> conferen(int regattaId, int userId)
         {
@@ -223,6 +228,28 @@ namespace UI.Controllers
         {
             return await _PublicAdmin.AddSuppliesprocurement(Sli);
         }
-
+        /// <summary>
+        /// 用章管理信息
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<List<BySeal>> GetBySeals(int regattaId, int userId, string bymatter, string depar, int pageindex, int pagesize)
+        {
+            List<BySeal> list = await _PublicAdmin.GetBySeals(regattaId, userId);
+            //根据主题模糊查询
+            if (!string.IsNullOrEmpty(bymatter))
+            {
+                list = list.Where(s => s.B_Matter.Contains(bymatter)).ToList();
+            }
+            //根据部门准确查找
+            if (!string.IsNullOrEmpty(depar))
+            {
+                list = list.Where(s => s.DName.Equals(depar)).ToList();
+            }
+            list = list.Skip((pageindex - 1) * pagesize).Take(pagesize).ToList();
+            return list;
+        }
     }
 }
