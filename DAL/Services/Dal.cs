@@ -33,6 +33,53 @@ namespace DAL.Services
             }
               
         }
+        /// <summary>
+        /// 车辆信息列表
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<List<VehicleInfoModel>> VehicleInfoList(int regattaId, int userId)
+        {
+            var cmdText = @"select * from vehicleinfo";
+            using (var conn = GetMySqlConnection(regattaId))
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+                List<VehicleInfoModel> memberModel = (await conn
+                    .QueryAsync<VehicleInfoModel>(cmdText, new { userId = userId }, commandType: System.Data.CommandType.Text))
+                    .ToList();
+                return memberModel;
+            }
+
+        }
+        /// <summary>
+        /// 用车申请
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<List<CarApplicationModel>> CarApplicationList(int regattaId, int userId)
+        {
+            var cmdText = "select * from carapplication";
+            using (var conn = GetMySqlConnection(regattaId))
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+                List<CarApplicationModel> memberModel = (await conn
+                    .QueryAsync<CarApplicationModel>(cmdText, new { userId = userId }, commandType: System.Data.CommandType.Text))
+                    .ToList();
+                return memberModel;
+            }
+
+        }
+        
+
+
         public async Task<List<AfarModel>> AfarList(int regattaId, int userId)
         {
             var cmdText = @"select * from afar";
@@ -74,7 +121,139 @@ namespace DAL.Services
             }
         }
         /// <summary>
+
+        /// 添加车辆信息
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public async Task<int> AddVehicleInfo(VehicleInfoModel model)
+        {
+          var cmdText = @$"INSERT INTO vehicleinfo(CarName,LicensePlateNum,NextInspection,InsuranceExpirationDate,LastMaintenanceDate,AutoState) 
+                        VALUES('{model.CarName}','{model.LicensePlateNum}','{model.NextInspection}','{model.InsuranceExpirationDate}','{model.AutoState}')";
+            using (var conn = GetMySqlConnection()) {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+                int memberModel = await conn.ExecuteAsync(cmdText, commandType: System.Data.CommandType.Text);               
+                  
+                return memberModel;
+
+            }
+        }
+        /// <summary>
+        /// 车辆详情
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<List<VehicleInfoModel>> VehicleInfoDetail(int id)
+        {
+            var cmdText = $"select * from vehicleinfo where id={id}";
+            using (var conn = GetMySqlConnection())
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+                List<VehicleInfoModel> memberModel = (await conn
+                    .QueryAsync<VehicleInfoModel>(cmdText,commandType: System.Data.CommandType.Text))
+                    .ToList();
+                return memberModel;
+            }
+
+        }
+        /// <summary>
+        /// APA资产采购
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<List<APAModel>> APAList(int regattaId, int userId)
+        {
+            var cmdText = "select * from apa";
+            using (var conn = GetMySqlConnection(regattaId))
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+                List<APAModel> memberModel = (await conn
+                    .QueryAsync<APAModel>(cmdText, new { userId = userId }, commandType: System.Data.CommandType.Text))
+                    .ToList();
+                return memberModel;
+            }
+
+        }
+        public async Task<List<AIRModel>> AIRList(int regattaId, int userId)
+        {
+            var cmdText = "select * from air";
+            using (var conn = GetMySqlConnection(regattaId))
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+                List<AIRModel> memberModel = (await conn
+                    .QueryAsync<AIRModel>(cmdText, new { userId = userId }, commandType: System.Data.CommandType.Text))
+                    .ToList();
+                return memberModel;
+            }
+
+        }
+        public async Task<List<AIROVModel>> AIROVList(int regattaId, int userId)
+        {
+            var cmdText = "select * from airov";
+            using (var conn = GetMySqlConnection(regattaId))
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+                List<AIROVModel> memberModel = (await conn
+                    .QueryAsync<AIROVModel>(cmdText, new { userId = userId }, commandType: System.Data.CommandType.Text))
+                    .ToList();
+                return memberModel;
+            }
+
+        }
+        public async Task<List<VMRModel>> VMRList(int regattaId, int userId)
+        {
+            var cmdText = "select * from vmr";
+            using (var conn = GetMySqlConnection(regattaId))
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+                List<VMRModel> memberModel = (await conn
+                    .QueryAsync<VMRModel>(cmdText, new { userId = userId }, commandType: System.Data.CommandType.Text))
+                    .ToList();
+                return memberModel;
+            }
+
+        }
+     
+        public async Task<List<VARModel>> VARList(int regattaId, int userId)
+        {
+            var cmdText = "select * from var";
+            using (var conn = GetMySqlConnection(regattaId))
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+                List<VARModel> memberModel = (await conn
+                    .QueryAsync<VARModel>(cmdText, new { userId = userId }, commandType: System.Data.CommandType.Text))
+                    .ToList();
+                return memberModel;
+            }
+        }
+        
+
+        /// 用车申请
+
         /// 用品列表详情
+
         /// </summary>
         /// <param name="regattaId"></param>
         /// <param name="userId"></param>
@@ -96,7 +275,32 @@ namespace DAL.Services
             }
         }
         /// <summary>
+
+        /// 用车详情
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<List<CarApplicationModel>> CarApplicationDetail(int id) {
+
+            var cmdText = $"select * from carapplication where id={id}";
+            using (var conn = GetMySqlConnection())
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+                List<CarApplicationModel> memberModel = (await conn
+                    .QueryAsync<CarApplicationModel>(cmdText,commandType: System.Data.CommandType.Text))
+                    .ToList();
+                return memberModel;
+            }
+
+        }
+        /// <summary>
+        /// 汽车保险登记
+
         /// 用品列表
+
         /// </summary>
         /// <param name="regattaId"></param>
         /// <param name="userId"></param>
@@ -187,7 +391,106 @@ namespace DAL.Services
             }
         }
         /// <summary>
-        /// 用品采购
+       /// 汽车保险登记详情
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<List<AIRModel>> AIRDetail(int id) {
+            var cmdText = $"select * from air where id={id}";
+            using (var conn = GetMySqlConnection())
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+                List<AIRModel> memberModel = (await conn
+                    .QueryAsync<AIRModel>(cmdText,commandType: System.Data.CommandType.Text))
+                    .ToList();
+                return memberModel;
+            }
+
+
+        }
+        /// <summary>
+        /// 车辆维修保养登记详情
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<List<VMRModel>> VMRDetail(int id)
+        {
+            var cmdText = $"select * from vmr where id={id}";
+            using (var conn = GetMySqlConnection())
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+                List<VMRModel> memberModel = (await conn
+                    .QueryAsync<VMRModel>(cmdText, commandType: System.Data.CommandType.Text))
+                    .ToList();
+                return memberModel;
+            }
+        }
+        public async Task<List<AssetsListModel>> AssetsList(int regattaId, int userId)
+        {
+            var cmdText = "select * from assetslist";
+            using (var conn = GetMySqlConnection(regattaId))
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+                List<AssetsListModel> memberModel = (await conn
+                    .QueryAsync<AssetsListModel>(cmdText, new { userId = userId }, commandType: System.Data.CommandType.Text))
+                    .ToList();
+                return memberModel;
+            }
+        }
+        /// <summary>
+        /// 资产领用申请列表
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<List<CFAModel>> CFAList(int regattaId, int userId)
+        {
+            var cmdText = "select * from cfa";
+            using (var conn = GetMySqlConnection(regattaId))
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+                List<CFAModel> memberModel = (await conn
+                    .QueryAsync<CFAModel>(cmdText, new { userId = userId }, commandType: System.Data.CommandType.Text))
+                    .ToList();
+                return memberModel;
+            }
+        }
+        /// <summary>
+        /// 车辆加油登记
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+
+        public async Task<List<VRRModel>> VRRList(int regattaId, int userId)
+        {
+            var cmdText = "select * from vrr";
+            using (var conn = GetMySqlConnection(regattaId))
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+                List<VRRModel> memberModel = (await conn
+                    .QueryAsync<VRRModel>(cmdText, new { userId = userId }, commandType: System.Data.CommandType.Text))
+                    .ToList();
+                return memberModel;
+            }
+        }
+
         /// </summary>
         /// <param name="regattaId"></param>
         /// <param name="userId"></param>
@@ -376,7 +679,34 @@ namespace DAL.Services
         }
 
         /// <summary>
+
+        /// 车辆年检登记详情
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+
+        public async Task<List<AIROVModel>> AIROVDetail(int id)
+        {
+            var cmdText = $"select * from airov where id={id}";
+            using (var conn = GetMySqlConnection())
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+                List<AIROVModel> memberModel = (await conn
+                    .QueryAsync<AIROVModel>(cmdText,commandType: System.Data.CommandType.Text))
+                    .ToList();
+                return memberModel;
+            }
+
+        }
+        /// <summary>
+        /// 车辆加油登记
+
         /// 获取证照借用列表
+
         /// </summary>
         /// <param name="regattaId"></param>
         /// <param name="userId"></param>
@@ -399,6 +729,31 @@ namespace DAL.Services
         }
 
         /// <summary>
+
+        /// 车辆加油登记详情
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+
+        public async Task<List<VRRModel>> VRRDetail(int id) {
+            var cmdText = $"select * from vrr where id={id}";
+            using (var conn = GetMySqlConnection())
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+                List<VRRModel> memberModel = (await conn
+                    .QueryAsync<VRRModel>(cmdText,commandType: System.Data.CommandType.Text))
+                    .ToList();
+                return memberModel;
+            }
+
+        }
+        /// <summary>
+        /// 车辆事故登记
+
         /// 用章管理信息
         /// </summary>
         /// <param name="regattaId"></param>
@@ -419,6 +774,29 @@ namespace DAL.Services
                 List<BySeal> bysModel = (await conn.QueryAsync<BySeal>(bys, new { userId = userId }, commandType: System.Data.CommandType.Text)).ToList();
                 return bysModel;
             }
+        }
+        /// <summary>
+        /// 车辆事故详情
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<List<VARModel>> VARDetail(int id) {
+
+
+            var cmdText = $"select * from var where id={id}";
+            using (var conn = GetMySqlConnection())
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+                List<VARModel> memberModel = (await conn
+                    .QueryAsync<VARModel>(cmdText,commandType: System.Data.CommandType.Text))
+                    .ToList();
+                return memberModel;
+            }
+
         }
 
         /// <summary>
@@ -469,6 +847,32 @@ namespace DAL.Services
 
             }
         }
+        /// <summary>
+        /// 资产归还详情
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<List<AfarModel>> AfarListDetail(int id) {
+            var cmdText = $"select * from afar where id={id}";
+
+            //此处可以根据传入的regattaId访问不同的数据
+            using (var conn = GetMySqlConnection())
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+
+                List<AfarModel> memberModel = (await conn
+                      .QueryAsync<AfarModel>(cmdText,commandType: System.Data.CommandType.Text))
+                      .ToList();
+                return memberModel;
+            }
+
+
+
+        }
 
         /// <summary>
         /// 获取证照名称下拉列表
@@ -491,6 +895,27 @@ namespace DAL.Services
                 List<LicenseName> licModel = (await conn.QueryAsync<LicenseName>(lic, new { userId = userId }, commandType: System.Data.CommandType.Text)).ToList();
                 return licModel;
             }
+        }
+        /// <summary>
+        /// 资产详情
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<List<AssetsListModel>> AssetsListDetail(int id)
+        {
+            var cmdText = $"select * from assetslist where id={id}";
+            using (var conn = GetMySqlConnection())
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+                List<AssetsListModel> memberModel = (await conn
+                    .QueryAsync<AssetsListModel>(cmdText,commandType: System.Data.CommandType.Text))
+                    .ToList();
+                return memberModel;
+            }
+
         }
 
         /// <summary>
@@ -517,7 +942,31 @@ namespace DAL.Services
         }
 
         /// <summary>
+       /// 资产领用详情
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<List<CFAModel>> CFAListDetail(int id)
+        {
+            var cmdText = $"select * from cfa where id={id}";
+            using (var conn = GetMySqlConnection())
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+                List<CFAModel> memberModel = (await conn
+                    .QueryAsync<CFAModel>(cmdText,commandType: System.Data.CommandType.Text))
+                    .ToList();
+                return memberModel;
+            }
+
+        }
+        /// <summary>
+        /// APA资产采购
         /// 证照列表详情
+
         /// </summary>
         /// <param name="regattaId"></param>
         /// <param name="userId"></param>
@@ -823,11 +1272,35 @@ namespace DAL.Services
             }
 
         }
+        /// <summary>
+        /// APA资产采购详情
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<List<APAModel>> APAListDetail(int id)
+        {
+            var cmdText = $"select * from apa where id={id}";
+            using (var conn = GetMySqlConnection())
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    await conn.OpenAsync();
+                }
+                List<APAModel> memberModel = (await conn
+                    .QueryAsync<APAModel>(cmdText,commandType: System.Data.CommandType.Text))
+                    .ToList();
+                return memberModel;
+            }
+
+
+        }
 
         public async Task<List<ManageModel>> manage(int regattaId, int userId)
         {
 
             var man = @"SELECT * from management m join reserve r on m.Man_Reserve = r.RID join department d on m.Man_Department = d.DId";
+
 
             //此处可以根据传入的regattaId访问不同的数据
             using (var conn = GetMySqlConnection(regattaId))

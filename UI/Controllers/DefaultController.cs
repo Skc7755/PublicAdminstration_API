@@ -68,7 +68,29 @@ namespace UI.Controllers
 
 
         /// <summary>
+       /// 添加车辆信息
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public async Task<int> AddVehicleInfo([FromBody] VehicleInfoModel model)
+        {
+            return await new Bll().AddVehicleInfo(model);
+        }
+        /// <summary>
+        /// 车辆详情
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<List<VehicleInfoModel>> VehicleInfoDetail(int id)
+        {
+            return await new Bll().VehicleInfoDetail(id);
+        }
+        /// <summary>
+        /// 用车申请
+
         /// Afar列表
+
         /// </summary>
         /// <param name="regattaId"></param>
         /// <param name="userId"></param>
@@ -79,7 +101,21 @@ namespace UI.Controllers
             return await _PublicAdmin.AfarList(regattaId, userId);
         }
         /// <summary>
+
+        /// 用车详情
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<List<CarApplicationModel>> CarApplicationDetail(int id)
+        {
+            return await new Bll().CarApplicationDetail(id);
+        }
+        /// <summary>
+        /// 汽车保险登记
+
         /// 用品列表
+
         /// </summary>
         /// <param name="regattaId"></param>
         /// <param name="userId"></param>
@@ -98,7 +134,21 @@ namespace UI.Controllers
             return list;
         }
         /// <summary>
+
+        /// 汽车保险登记详情
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<List<AIRModel>> AIRDetail(int id)
+        {
+            return await new Bll().AIRDetail(id);
+        }
+        /// <summary>
+        /// 车辆维修保养登记
+
         /// 用品类别表
+
         /// </summary>
         /// <param name="regattaId"></param>
         /// <param name="userId"></param>
@@ -109,7 +159,22 @@ namespace UI.Controllers
             return await _PublicAdmin.GetCategory(regattaId, userId);
         }
         /// <summary>
+
+        /// 车辆维修保养登记详情
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<List<VMRModel>> VMRDetail(int id)
+        {
+            return await new Bll().VMRDetail(id);
+        }
+        /// <summary>
+        /// 车辆年检登记表
+
         /// 用品列表详情
+
         /// </summary>
         /// <param name="regattaId"></param>
         /// <param name="userId"></param>
@@ -120,7 +185,23 @@ namespace UI.Controllers
             return await _PublicAdmin.SupplieslistId(regattaId, userId, sllId);
         }
         /// <summary>
+
+        /// 车辆年检登记详情
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<List<AIROVModel>> AIROVDetail(int id)
+        {
+            return await new Bll().AIROVDetail(id);
+
+        }
+        /// <summary>
+        /// 车辆加油登记
+
         /// 申请人类别表
+
         /// </summary>
         /// <param name="regattaId"></param>
         /// <param name="userId"></param>
@@ -131,7 +212,22 @@ namespace UI.Controllers
             return await _PublicAdmin.GetApplicant(regattaId, userId);
         }
         /// <summary>
+
+        /// 车辆加油登记详情
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<List<VRRModel>> VRRDetail(int id)
+        {
+            return await new Bll().VRRDetail(id);
+        }
+        /// <summary>
+        /// 车辆事故登记
+
         /// 所属部门类别
+
         /// </summary>
         /// <param name="regattaId"></param>
         /// <param name="userId"></param>
@@ -141,6 +237,24 @@ namespace UI.Controllers
         {
             return await _PublicAdmin.GetDepartment(regattaId, userId);
         }
+
+        /// <summary>
+        /// 车辆事故详情
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+       [HttpGet]
+        public async Task<List<VARModel>> VARDetail(int id)
+        {
+            return await new Bll().VARDetail(id);
+        }
+
+
+
+
+        /////////////--------------------------------------《资产管理》---------------------------------
+
         /// <summary>
         /// 用品领用详情
         /// </summary>
@@ -153,7 +267,22 @@ namespace UI.Controllers
             return await _PublicAdmin.SuppliescollectId(regattaId, userId, sllId);
         }
         /// <summary>
+
+        /// 资产归还详情
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<List<AfarModel>> AfarListDetail(int id)
+        {
+            return await new Bll().AfarListDetail(id);
+        }
+        /// <summary>
+        /// 资产列表
+
         /// 用品采购详情
+
         /// </summary>
         /// <param name="regattaId"></param>
         /// <param name="userId"></param>
@@ -163,6 +292,53 @@ namespace UI.Controllers
         {
             return await _PublicAdmin.SuppliesprocurementId(regattaId, userId, slpId);
         }
+        [HttpGet]
+        public async Task<List<VehicleInfoModel>> VehicleInfoList(int regattaId, int userId)
+        {
+            return await new Bll().VehicleInfoList(regattaId, userId);
+        }
+        [HttpGet]
+        public async Task<List<CarApplicationModel>> CarApplicationList(int regattaId, int userId)
+        {
+            return await new Bll().CarApplicationList(regattaId, userId);
+        }
+        [HttpGet]
+        public async Task<List<AIRModel>> AIRList(int regattaId, int userId)
+        {
+            return await new Bll().AIRList(regattaId,userId);
+        }
+        [HttpGet]
+        public async Task<List<VMRModel>> VMRList(int regattaId, int userId)
+        {
+            return await new Bll().VMRList(regattaId,userId);
+        }
+        /// <summary>
+        /// 资产详情
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<List<AssetsListModel>> AssetsListDetail(int id)
+        {
+            return await new Bll().AssetsListDetail(id);
+        }
+        [HttpGet]
+        public async Task<List<AIROVModel>> AIROVList(int regattaId, int userId)
+        {
+            return await new Bll().AIROVList(regattaId,userId);
+        }
+        [HttpGet]
+        public async Task<List<VRRModel>> VRRList(int regattaId, int userId)
+        {
+            return await new Bll().VRRList(regattaId,userId);
+        }
+        [HttpGet]
+        public async Task<List<VARModel>> VARList(int regattaId, int userId)
+        {
+            return await new Bll().VARList(regattaId, userId);
+        }
+       
+
         /// <summary>
         /// 用品采购
         /// </summary>
@@ -180,6 +356,23 @@ namespace UI.Controllers
             list = list.Skip((pageindex - 1) * pagesize).Take(pagesize).ToList();
             return list;
         }
+        [HttpGet]
+        public async Task<List<APAModel>> APAList(int regattaId, int userId)
+        {
+            return await new Bll().APAList(regattaId, userId);
+
+        }
+        [HttpGet]
+        public async Task<List<AssetsListModel>> AssetsList(int regattaId, int userId)
+        {
+            return await new Bll().AssetsList(regattaId, userId);
+        }
+        [HttpGet]
+        public async Task<List<CFAModel>> CFAList(int regattaId, int userId)
+        {
+            return await new Bll().CFAList(regattaId,userId);
+        }
+
         /// <summary>
         /// 用品领用
         /// </summary>
@@ -229,7 +422,23 @@ namespace UI.Controllers
             return await _PublicAdmin.AddSuppliesprocurement(Sli);
         }
         /// <summary>
+
+        /// 资产领用详情
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+
+        public async Task<List<CFAModel>> CFAListDetail(int id)
+        {
+
+            return await new Bll().CFAListDetail(id);
+        }
+        /// <summary>
+        /// APA资产采购
+
         /// 用章管理信息
+
         /// </summary>
         /// <param name="regattaId"></param>
         /// <param name="userId"></param>
@@ -250,6 +459,17 @@ namespace UI.Controllers
             }
             list = list.Skip((pageindex - 1) * pagesize).Take(pagesize).ToList();
             return list;
+        }
+        /// <summary>
+        /// APA资产采购详情
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<List<APAModel>> APAListDetail(int id)
+        {
+            return await new Bll().APAListDetail(id);
         }
     }
 }

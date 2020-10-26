@@ -39,9 +39,31 @@ namespace BLL
 
         /// <summary>
 
+        /// 添加车辆信息
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public async Task<int> AddVehicleInfo(VehicleInfoModel model)
+        {
+            return await new Dal().AddVehicleInfo(model);
+        }
+        /// <summary>
+        /// 车辆详情
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<List<VehicleInfoModel>> VehicleInfoDetail(int id)
+        {
+            return await new Dal().VehicleInfoDetail(id);
+        }
+        /// <summary>
+        /// 用车申请
+
+
         /// 获取印章列表
 
         /// 用品类别表
+
 
         /// </summary>
         /// <param name="regattaId"></param>
@@ -60,26 +82,62 @@ namespace BLL
 
         /// <summary>
 
-        /// 获取证照借用列表
+        public async Task<List<VMRModel>> VMRList(int regattaId,int userId)
+        {
+            return await new Dal().VMRList(regattaId,userId);
+        }
 
-        /// 用品列表详情
-
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<List<CarApplicationModel>> CarApplicationDetail(int id)
+        {
+            return await new Dal().CarApplicationDetail(id);
+        }
+        /// <summary>
+        /// 汽车保险登记
         /// </summary>
         /// <param name="regattaId"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
 
+
+        public async Task<List<AIRModel>> AIRList(int regattaId, int userId)
+        {
+            return await new Dal().AIRList(regattaId,userId);
+        }
+
         public async Task<List<License>> GetLicenses(int regattaId, int userId)
+
         {
             return await dal.GetLicenses(regattaId, userId);
         }
 
         /// <summary>
+
+        /// 汽车保险登记详情
+
         /// 用章管理信息
+
         /// </summary>
-        /// <param name="regattaId"></param>
-        /// <param name="userId"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
+
+        public async Task<List<AIRModel>> AIRDetail(int id)
+        {
+            return await new Dal().AIRDetail(id);
+        }
+        public async Task<List<AssetsListModel>> AssetsList(int regattaId, int userId)
+        {
+            return await new Dal().AssetsList(regattaId,userId);
+        }
+
+        public async Task<List<VARModel>> VARList(int regattaId, int userId)
+        {
+            return await new Dal().VARList(regattaId, userId);
+        }
+
+
         public async Task<List<BySeal>> GetBySeals(int regattaId, int userId)
         {
             return await dal.GetBySeals(regattaId, userId);
@@ -88,6 +146,14 @@ namespace BLL
         {
             return await new Dal().SupplieslistId(regattaId, userId, sllId);
 
+        }
+        public async Task<List<VehicleInfoModel>> VehicleInfoList(int regattaId, int userId)
+        {
+            return await new Dal().VehicleInfoList(regattaId,userId);
+        }
+        public async Task<List<CarApplicationModel>> CarApplicationList(int regattaId, int userId)
+        {
+            return await new Dal().CarApplicationList(regattaId,userId);
         }
 
         /// <summary>
@@ -139,6 +205,7 @@ namespace BLL
        
         }
         public async Task<List<Applicant>> GetApplicant(int regattaId, int userId)
+
         {
             return await new Dal().GetApplicant(regattaId, userId);
         }
@@ -156,14 +223,34 @@ namespace BLL
 
         /// <summary>
 
+        /// 车辆维修保养登记详情
+
+
         /// 获取部门下拉列表
 
         /// 用品领用详情
+
 
         /// </summary>
         /// <param name="regattaId"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
+        public async Task<List<VMRModel>> VMRDetail(int id)
+        {
+            return await new Dal().VMRDetail(id);
+        }
+        /// <summary>
+        /// 车辆年检登记表
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+
+
+        public async Task<List<AIROVModel>> AIROVList(int regattaId, int userId)
+        {
+            return await new Dal().AIROVList(regattaId,userId);
+        }
 
         public async Task<List<Department>> GetDepartments(int regattaId, int userId)
         {
@@ -181,6 +268,7 @@ namespace BLL
             return await dal.GetLicenseNames(regattaId, userId);
         }
         public async Task<Suppliescollect> SuppliescollectId(int regattaId, int userId, int sllId)
+
         {
             return await new Dal().SuppliescollectId(regattaId, userId, sllId);
 
@@ -188,16 +276,49 @@ namespace BLL
 
         /// <summary>
 
+        /// 车辆年检登记详情
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+
+        public async Task<List<AIROVModel>> AIROVDetail(int id)
+        {
+            return await new Dal().AIROVDetail(id);
+
+        }
+        /// <summary>
+        /// 车辆加油登记详情
+
+
         /// 获取印章名称下拉列表
 
         /// 用品采购详情
+
 
         /// </summary>
         /// <param name="regattaId"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
 
+
+        public async Task<List<VRRModel>> VRRDetail(int id)
+        {
+            return await new Dal().VRRDetail(id);
+        }
+        /// <summary>
+        /// 车辆加油登记
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+
+        public async Task<List<VRRModel>> VRRList(int regattaId, int userId)
+        {
+            return await new Dal().VRRList(regattaId,userId);
+        }
         public async Task<List<SealName>> GetSealNames(int regattaId, int userId)
+
         {
             return await dal.GetSealNames(regattaId, userId);
         }
@@ -211,6 +332,28 @@ namespace BLL
         public async Task<Certification> CerParticulars(int cerId)
         {
             return await dal.CerParticulars(cerId);
+        }
+
+        /// <summary>
+        /// 车辆事故详情
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<List<VARModel>> VARDetail(int id)
+        {
+            return await new Dal().VARDetail(id);
+        }
+        //---------------------------------------《资产管理》-----------------------------------------
+        /// <summary>
+        /// 资产归还申请列表
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<List<AfarModel>> AfarList(int regattaId, int userId)
+        {
+            return await new Dal().AfarList(regattaId,userId);
         }
 
         /// <summary>
@@ -254,32 +397,65 @@ namespace BLL
         /// <returns></returns>
 
         public async Task<BySeal> ByParticulars(int byId)
+
         {
             return await dal.ByParticulars(byId);
         }
 
-        /// <summary>
-        /// 添加证照列表信息
         /// </summary>
         /// <param name="regattaId"></param>
         /// <param name="userId"></param>
         /// <param name="cer"></param>
+
+        public async Task<List<AfarModel>> AfarListDetail(int id)
+        {
+            return await new Dal().AfarListDetail(id);
+        }
+        /// <summary>
+        /// 资产列表
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
         /// <returns></returns>
+       
         public async Task<int> AddCertification(Certification cer)
         {
-            return await dal.AddCertification(cer);
+            return await new Dal().AddCertification(cer);
         }
         public async Task<List<Suppliesprocurement>> GetSuppliesprocurement(int regattaId, int userId)
+
         {
             return await new Dal().GetSuppliesprocurement(regattaId, userId);
 
         }
+        public async Task<List<APAModel>> APAList(int regattaId, int userId)
+        {
+            return await new Dal().APAList(regattaId,userId);        
+
+        }
 
         /// <summary>
+        /// 资产详情
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<List<AssetsListModel>> AssetsListDetail(int id)
+        {
+            return await new Dal().AssetsListDetail(id);
+        }
 
-        /// 添加印章列表信息
+            /// <summary>
+            /// 资产领用申请列表
+            /// </summary>
+            /// <param name="regattaId"></param>
+            /// <param name="userId"></param>
+            /// <returns></returns>
+            public async Task<List<CFAModel>> CFAList(int regattaId, int userId)
+        {
+            return await new Dal().CFAList(regattaId,userId);
+        }
 
-        /// 用品领用
+
 
         /// </summary>
         /// <param name="regattaId"></param>
@@ -287,6 +463,12 @@ namespace BLL
         /// <param name="cer"></param>
         /// <returns></returns>
 
+
+        public async Task<List<CFAModel>> CFAListDetail(int id)
+        {
+
+            return await new Dal().CFAListDetail(id);
+        }
         public async Task<int> AddStamp(Stamp sta)
         {
             return await dal.AddStamp(sta);
@@ -294,6 +476,7 @@ namespace BLL
         public async Task<List<Suppliescollect>> GetSuppliescollect(int regattaId, int userId)
         {
             return await new Dal().GetSuppliescollect(regattaId, userId);
+
 
         }
         /// <summary>
@@ -307,6 +490,17 @@ namespace BLL
         public async Task<int> AddLicense(License lic)
         {
             return await dal.AddLicense(lic);
+        }
+
+        /// <summary>
+        /// APA资产采购详情
+        /// </summary>
+        /// <param name="regattaId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<List<APAModel>> APAListDetail(int id)
+        {
+            return await new Dal().APAListDetail(id);
         }
         /// 添加用品
         /// </summary>
@@ -378,6 +572,7 @@ namespace BLL
         public async Task<int> AddSuppliescollect(Suppliescollect Sli)
         {
             return await new Dal().AddSuppliescollect(Sli);
+
         }
     }
 }
